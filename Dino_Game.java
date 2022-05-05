@@ -28,10 +28,7 @@ public class Dino_Game extends ApplicationAdapter
     private Rectangle cacti;
     private Rectangle dino;
     
-    @Override
-    public void create(){
-        
-    }
+  
     
     
     
