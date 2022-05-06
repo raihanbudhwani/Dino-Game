@@ -1,9 +1,3 @@
-start = new Texture(Gdx.files.internal("start.png")); 
-        startHighlight = new Texture(Gdx.files.internal("startHighlight.png")); 
-        startButton = new Rectangle(WORLD_WIDTH / 2 - 64, 
-            WORLD_HEIGHT / 2 - 64, 128, 128);
-
-
 import com.badlogic.gdx.ApplicationAdapter; 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -38,8 +32,15 @@ public class Dino_Game extends ApplicationAdapter
     private Rectangle bigCactus;
     private Rectangle bird;
     private Rectangle dino;
-    private int gravity;
-    private int dinoSpeed;
+    
+    private Rectangle startButton;
+    private Texture start;
+    private Texture startHighlight;
+    
+    private final int GRAVITY = 1;
+    private final int DINOSPEED = 10;
+
+    private GameState gamestate;
 
     private OrthographicCamera camera; //the camera to our world
     private Viewport viewport; //maintains the ratios of your world
@@ -50,21 +51,22 @@ public class Dino_Game extends ApplicationAdapter
     public static final float WORLD_WIDTH = 400; 
     public static final float WORLD_HEIGHT = 400;
 
-
     //constructor
-
     @Override
     public void create(){
 
-    
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
         renderer = new ShapeRenderer(); 
         font = new BitmapFont(); 
         batch = new SpriteBatch(); 
-
+        gamestate = new GameState.MENU;
         timer = 0;
         highScore = 0;
+        
+        start = new Texture(Gdx.files.internal("start.png"));//make and upload picture 
+        startHighlight = new Texture(Gdx.files.internal("startHighlight.png"));//make and upload picture
+        startButton = new Rectangle(WORLD_WIDTH / 2 - 64, WORLD_HEIGHT / 2 - 64, 128, 128);//make and upload picture
 
         //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
         bird = new Rectangle(50,15);
@@ -78,7 +80,7 @@ public class Dino_Game extends ApplicationAdapter
     //renderer
 
     public void renderer(){
-    if(gamestate == GameState.MENU){
+        if(gamestate == GameState.MENU){
             Vector2 clickLoc = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY())); 
             batch.setProjectionMatrix(viewport.getCamera().combined);
             batch.begin(); 
@@ -113,7 +115,7 @@ public class Dino_Game extends ApplicationAdapter
     }
 
     public void death(){
-        if(dino.hasCollided)
+        if(dino.hasCollided())
             endGame();
     }
 
@@ -131,18 +133,10 @@ public class Dino_Game extends ApplicationAdapter
     }
 
     public boolean hasCollided(){
-        if(dino.getX == cacti.getX && dino.getY == cacti.getY)//fix this if needed, i think it needs it
+        if(dino.x == cacti.x && dino.y == cacti.y)
             return true;
         else
             return false;
-    }
-
-    public void getX(){
-        //add logic here
-    }
-
-    public void getY(){
-        //add logic here
     }
 
     public void reset(){
