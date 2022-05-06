@@ -27,9 +27,24 @@ public class Dino_Game extends ApplicationAdapter
 {
     private Rectangle cacti;
     private Rectangle dino;
+    private int[][] backGround;
     
-  
-
-    public 
+    //constructor
+    @Override
+    public void create(){
+    
+    }
+    
+    //renderer
+    pubic void renderer(){
+    
+    }
+    
+    //logic
+    public void jump(){
+        if(keysJustPressed.SPACE){
+            
+        }
+    }
     
 }
