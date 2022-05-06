@@ -25,26 +25,80 @@ import apcslib.*;
 
 public class Dino_Game extends ApplicationAdapter
 {
-    private Rectangle cacti;
+    //instance variables
+    
+    private double timer;
+    private Rectangle cactus;
+    private Rectangle bigCactus;
+    private Rectangle bird;
     private Rectangle dino;
     private int[][] backGround;
     
     //constructor
+    
     @Override
     public void create(){
-    
+        
+        
+        
+        timer = 0.0;
+        
+        //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
+        bird = new Rectangle(50, 15);
+        bigCactus = new Rectangle(20, 60);
+        cactus = new Rectangle(20, 40);
+        dino = new Rectangle(30, 50);
+        background = new int[400][400];
     }
     
     //renderer
-    pubic void renderer(){
     
+    pubic void renderer(){
+        if(keysJustPressed.SPACE){
+            startGame();
+            jump();
+        }
+        //add more logic
     }
     
-    //logic
+    //logic for game
+    
     public void jump(){
-        if(keysJustPressed.SPACE){
-            
-        }
+        //Add logic here
+    }
+    
+    public void death(){
+        if(dino.hasCollided)
+            endGame();
+    }
+    
+    public void startGame(){
+        timer += 0.01;
+        
+        //Add more logic
+    }
+    
+    public void endGame(){
+        //Add logic here
+    }
+    
+    public boolean hasCollided(){
+        if(dino.getX == cacti.getX && dino.getY == cacti.getY)//fix this if needed, i think it needs it
+            return true;
+        else
+            return false;
+    }
+    
+    public void getX(){
+        //add logic here
+    }
+    
+    public void getY(){
+        //add logic here
+    }
+    public void reset(){
+        timer = 0.0;
+        //Add more logic
     }
     
 }
