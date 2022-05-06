@@ -97,6 +97,7 @@ public class Dino_Game extends ApplicationAdapter
             if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
                 jump();
             }
+        }
     }
 
     //logic for game
