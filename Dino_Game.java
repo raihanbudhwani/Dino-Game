@@ -72,7 +72,7 @@ public class Dino_Game extends ApplicationAdapter
     //renderer
 
     public void renderer(){
-        if(keysJustPressed.SPACE){
+        if(Gdx.input.isKeyJustPressed(Keys.SPACE){
             startGame();
             jump();
         }
