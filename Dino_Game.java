@@ -27,7 +27,9 @@ public class Dino_Game extends ApplicationAdapter
 {
     //instance variables
     
-    private double timer;
+    private int timer;
+    private int highScore;
+    
     private Rectangle cactus;
     private Rectangle bigCactus;
     private Rectangle bird;
@@ -41,7 +43,8 @@ public class Dino_Game extends ApplicationAdapter
         
         
         
-        timer = 0.0;
+        timer = 0;
+        highScore = 0;
         
         //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
         bird = new Rectangle(50, 15);
@@ -73,13 +76,16 @@ public class Dino_Game extends ApplicationAdapter
     }
     
     public void startGame(){
-        timer += 0.01;
+        timer++;
         
         //Add more logic
     }
     
     public void endGame(){
-        //Add logic here
+        if(timer > highScore){
+            highScore = timer;
+        }
+        //Add more logic
     }
     
     public boolean hasCollided(){
@@ -97,7 +103,7 @@ public class Dino_Game extends ApplicationAdapter
         //add logic here
     }
     public void reset(){
-        timer = 0.0;
+        timer = 0;
         //Add more logic
     }
     
