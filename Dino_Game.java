@@ -37,6 +37,9 @@ public class Dino_Game extends ApplicationAdapter
     private int gravity;
     private int dinoSpeed;
     
+    public static final float WORLD_WIDTH = 800; 
+    public static final float WORLD_HEIGHT = 480;
+    
     //constructor
     
     @Override
