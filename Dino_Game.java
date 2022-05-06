@@ -1,3 +1,9 @@
+start = new Texture(Gdx.files.internal("start.png")); 
+        startHighlight = new Texture(Gdx.files.internal("startHighlight.png")); 
+        startButton = new Rectangle(WORLD_WIDTH / 2 - 64, 
+            WORLD_HEIGHT / 2 - 64, 128, 128);
+
+
 import com.badlogic.gdx.ApplicationAdapter; 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
