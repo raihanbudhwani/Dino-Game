@@ -72,11 +72,31 @@ public class Dino_Game extends ApplicationAdapter
     //renderer
 
     public void renderer(){
-        if(Gdx.input.isKeyJustPressed(Keys.SPACE){
-            startGame();
-            jump();
+    if(gamestate == GameState.MENU){
+            Vector2 clickLoc = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY())); 
+            batch.setProjectionMatrix(viewport.getCamera().combined);
+            batch.begin(); 
+            if(!startButton.contains(clickLoc))
+                batch.draw(start, 
+                    startButton.x, 
+                    startButton.y, 
+                    startButton.width, 
+                    startButton.height);
+            else{
+                batch.draw(startHighlight, 
+                    startButton.x, 
+                    startButton.y, 
+                    startButton.width, 
+                    startButton.height);
+            }
+
+            batch.end(); 
         }
-        //add more logic
+        if(gamestate == GameState.GAME)
+        {
+            if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+                jump();
+            }
     }
 
     //logic for game
