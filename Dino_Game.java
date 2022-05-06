@@ -34,7 +34,8 @@ public class Dino_Game extends ApplicationAdapter
     private Rectangle bigCactus;
     private Rectangle bird;
     private Rectangle dino;
-    private int[][] backGround;
+    private int gravity;
+    private int dinoSpeed;
     
     //constructor
     
@@ -51,7 +52,8 @@ public class Dino_Game extends ApplicationAdapter
         bigCactus = new Rectangle(20, 60);
         cactus = new Rectangle(20, 40);
         dino = new Rectangle(30, 50);
-        background = new int[400][400];
+        gravity = 2;
+        dinoSpeed = 2;
     }
     
     //renderer
