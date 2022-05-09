@@ -28,8 +28,7 @@ public class Dino_Game extends ApplicationAdapter
     private int timer;
     private int highScore;
 
-    private Rectangle cactus;
-    private Rectangle bigCactus;
+    private Rectangle rCactus1, rCactus2, rCactus3, rCactus4, rCactus5;
     private Rectangle bird;
     private Rectangle dino;
     
@@ -40,7 +39,7 @@ public class Dino_Game extends ApplicationAdapter
     private Texture image;
     private Texture leftFootDino;
     private Texture rightFootDino;
-    private Texture deadDino;
+    private Texture deadDino, tCactus1, tCactus2, tCactus3, tCactus4, tCactus5, ground, sun;
     
     private final int GRAVITY = 1;
     private final int DINOSPEED = 10;
@@ -71,10 +70,20 @@ public class Dino_Game extends ApplicationAdapter
 
         //find images put in same folder
         
-        image = new Texture(Gdx.files.internal("../images/Dino-stand.png"));
-        leftFootDino = new Texture(Gdx.files.internal("../images/Dino-left-up.png"));
-        rightFootDino = new Texture(Gdx.files.internal("../images/Dino-right-up.png"));
-        deadDino = new Texture(Gdx.files.internal("../images/Dino-big-eyes.png"));
+        topPointReached = false;
+        image = new Texture(Gdx.files.internal("Dino-stand.png"));
+        leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
+        rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
+        deadDino = new Texture(Gdx.files.internal("Dino-big-eyes.png"));
+        cactus1 = new Texture(Gdx.files.internal("Cactus-1"));
+        cactus2 = new Texture(Gdx.files.internal("Cactus-2"));
+        cactus3 = new Texture(Gdx.files.internal("Cactus-3"));
+        cactus4 = new Texture(Gdx.files.internal("Cactus-4"));
+        cactus5 = new Texture(Gdx.files.internal("Cactus-5"));
+        ground = new Texture(Gdx.files.internal("Ground"));
+        sun = new Texture(Gdx.files.internal("Sun"));
+        
+        
         
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
@@ -91,8 +100,11 @@ public class Dino_Game extends ApplicationAdapter
 
         //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
         bird = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 50, 15);
-        bigCactus = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 60);
-        cactus = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        cactus1 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        cactus2 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        cactus3 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        cactus4 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        cactus5 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
         dino = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 30, 50);
         
         
