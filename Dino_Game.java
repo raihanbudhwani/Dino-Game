@@ -100,11 +100,11 @@ public class Dino_Game extends ApplicationAdapter
 
         //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
         bird = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 50, 15);
-        cactus1 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
-        cactus2 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
-        cactus3 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
-        cactus4 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
-        cactus5 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        rCactus1 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        rCactus2 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        rCactus3 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        rCactus4 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        rCactus5 = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
         dino = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 30, 50);
         
         
@@ -169,7 +169,11 @@ public class Dino_Game extends ApplicationAdapter
     }
 
     public boolean hasCollided(){
-        if(dino.x == cactus.x && dino.y == cactus.y)
+        if(dino.x == rCactus1.x && dino.y == rCactus1.y
+            && dino.x == rCactus2.x && dino.y == rCactus2.y
+                && dino.x == rCactus3.x && dino.y == rCactus3.y
+                    && dino.x == rCactus4.x && dino.y == rCactus4.y
+                        && dino.x == rCactus5.x && dino.y == rCactus5.y)
             return true;
         else
             return false;
