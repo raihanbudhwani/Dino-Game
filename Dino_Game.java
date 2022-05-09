@@ -50,7 +50,7 @@ public class Dino_Game extends ApplicationAdapter
     private static int jumpFactor = 20;
     private final int LEFT_FOOT = 1, RIGHT_FOOT = 2, NO_FOOT = 3;
     private static boolean topPointReached;
-    private static int state;
+    private static int state; //example: dead, running, jumping
 
 
 
