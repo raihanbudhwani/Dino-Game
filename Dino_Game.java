@@ -28,7 +28,7 @@ public class Dino_Game extends ApplicationAdapter
     private int timer;
     private int highScore;
 
-    private Rectangle catus;
+    private Rectangle cactus;
     private Rectangle bigCactus;
     private Rectangle bird;
     private Rectangle dino;
@@ -71,28 +71,17 @@ public class Dino_Game extends ApplicationAdapter
 
         //find images put in same folder
         
-        
-        topPointReached = false;
-        image = new Texture(Gdx.files.internal("Dino-stand.png"));
-        leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
-        rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
-        deadDino = new Texture(Gdx.files.internal("Dino-big-eyes.png"));
-        cactus1 = new Texture(Gdx.files.internal("Cactus-1"));
-        cactus2 = new Texture(Gdx.files.internal("Cactus-2"));
-        cactus3 = new Texture(Gdx.files.internal("Cactus-3"));
-        cactus4 = new Texture(Gdx.files.internal("Cactus-4"));
-        cactus5 = new Texture(Gdx.files.internal("Cactus-5"));
-        ground = new Texture(Gdx.files.internal("Ground"));
-        sun = new Texture(Gdx.files.internal("Sun"));
-        
-        
+        image = new Texture(Gdx.files.internal("../images/Dino-stand.png"));
+        leftFootDino = new Texture(Gdx.files.internal("../images/Dino-left-up.png"));
+        rightFootDino = new Texture(Gdx.files.internal("../images/Dino-right-up.png"));
+        deadDino = new Texture(Gdx.files.internal("../images/Dino-big-eyes.png"));
         
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
         renderer = new ShapeRenderer(); 
         font = new BitmapFont(); 
         batch = new SpriteBatch(); 
-        gamestate = new GameState.MENU;
+        gamestate = GameState.MENU;
         timer = 0;
         highScore = 0;
         
@@ -101,16 +90,10 @@ public class Dino_Game extends ApplicationAdapter
         startButton = new Rectangle(WORLD_WIDTH / 2 - 64, WORLD_HEIGHT / 2 - 64, 128, 128);//make and upload picture
 
         //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
-        bird = new Rectangle(50,15);
-        bigCactus = new Rectangle(20,60);
-        cactus = new Rectangle(20, 40);
-        dino = new Rectangle(30, 50);
-        gravity = 2;
-        dinoSpeed = 2;
-    
-        
-        
-        
+        bird = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 50, 15);
+        bigCactus = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 60);
+        cactus = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 20, 40);
+        dino = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 30, 50);
         
         
     }
@@ -153,7 +136,7 @@ public class Dino_Game extends ApplicationAdapter
     }
 
     public void death(){
-        if(dino.hasCollided())
+        if(hasCollided())
         {
             state = DIE;
             endGame();
@@ -174,7 +157,7 @@ public class Dino_Game extends ApplicationAdapter
     }
 
     public boolean hasCollided(){
-        if(dino.x == cacti.x && dino.y == cacti.y)
+        if(dino.x == cactus.x && dino.y == cactus.y)
             return true;
         else
             return false;
