@@ -47,14 +47,29 @@ public class Dino_Game extends ApplicationAdapter
     private ShapeRenderer renderer; //used to draw textures and fonts 
     private BitmapFont font; //used to draw fonts (text)
     private SpriteBatch batch; //also needed to draw fonts (text)
+    private static int jumpFactor = 20;
+    private final int LEFT_FOOT = 1, RIGHT_FOOT = 2, NO_FOOT = 3;
+    private static boolean topPointReached;
+    private static int state;
+
+
 
     public static final float WORLD_WIDTH = 400; 
     public static final float WORLD_HEIGHT = 400;
+    public static final int STAND_STILL = 1, RUNNING = 2, JUMPING = 3, DIE = 4;
+  
+
 
     //constructor
     @Override
     public void create(){
 
+        //find images put in same folder
+        image = new Resource().getResourceImage("../images/Dino-stand.png"); 
+        leftFootDino = new Resource().getResourceImage("../images/Dino-left-up.png");
+        rightFootDino = new Resource().getResourceImage("../images/Dino-right-up.png");
+        deadDino = new Resource().getResourceImage("../images/Dino-big-eyes.png");
+        
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
         renderer = new ShapeRenderer(); 
