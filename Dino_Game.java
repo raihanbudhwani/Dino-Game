@@ -66,12 +66,12 @@ public class Dino_Game extends ApplicationAdapter
 
 
     //constructor
-    public Dino()
-    {
     
-         //Texture texture = new Texture(Gdx.files.internal("my-image.png")); //syntax
+    public void create(){
 
-        image = new Texture(Gdx.files.internal("../images/Dino-stand.png"));
+        //find images put in same folder
+        
+         image = new Texture(Gdx.files.internal("../images/Dino-stand.png"));
         leftFootDino = new Texture(Gdx.files.internal("../images/Dino-left-up.png"));
         rightFootDino = new Texture(Gdx.files.internal("../images/Dino-right-up.png"));
         deadDino = new Texture(Gdx.files.internal("../images/Dino-big-eyes.png"));
@@ -97,13 +97,6 @@ public class Dino_Game extends ApplicationAdapter
         gravity = 2;
         dinoSpeed = 2;
     
-    }
-    
-    
-    
-    public void create(){
-
-        //find images put in same folder
         
         
         
