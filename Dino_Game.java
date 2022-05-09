@@ -65,6 +65,10 @@ public class Dino_Game extends ApplicationAdapter
     public void create(){
 
         //find images put in same folder
+        
+        Texture texture = new Texture(Gdx.files.internal("my-image.png")); //syntax
+        
+        
         image = new Resource().getResourceImage("../images/Dino-stand.png"); 
         leftFootDino = new Resource().getResourceImage("../images/Dino-left-up.png");
         rightFootDino = new Resource().getResourceImage("../images/Dino-right-up.png");
