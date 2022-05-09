@@ -150,7 +150,10 @@ public class Dino_Game extends ApplicationAdapter
 
     public void death(){
         if(dino.hasCollided())
+        {
+            state = dead;
             endGame();
+        }
     }
 
     public void startGame(){
