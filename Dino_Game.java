@@ -37,6 +37,11 @@ public class Dino_Game extends ApplicationAdapter
     private Texture start;
     private Texture startHighlight;
     
+    private Texture image;
+    private Texture leftFootDino;
+    private Texture rightFootDino;
+    private Texture deadDino;
+    
     private final int GRAVITY = 1;
     private final int DINOSPEED = 10;
 
@@ -66,13 +71,12 @@ public class Dino_Game extends ApplicationAdapter
 
         //find images put in same folder
         
-        Texture texture = new Texture(Gdx.files.internal("my-image.png")); //syntax
+        //Texture texture = new Texture(Gdx.files.internal("my-image.png")); //syntax
         
-        
-        image = new Resource().getResourceImage("../images/Dino-stand.png"); 
-        leftFootDino = new Resource().getResourceImage("../images/Dino-left-up.png");
-        rightFootDino = new Resource().getResourceImage("../images/Dino-right-up.png");
-        deadDino = new Resource().getResourceImage("../images/Dino-big-eyes.png");
+        image = new Texture(Gdx.files.internal("../images/Dino-stand.png"));
+        leftFootDino = new Texture(Gdx.files.internal("../images/Dino-left-up.png"));
+        rightFootDino = new Texture(Gdx.files.internal("../images/Dino-right-up.png"));
+        deadDino = new Texture(Gdx.files.internal("../images/Dino-big-eyes.png"));
         
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
