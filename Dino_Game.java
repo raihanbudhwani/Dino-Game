@@ -71,10 +71,12 @@ public class Dino_Game extends ApplicationAdapter
 
         //find images put in same folder
         
-         image = new Texture(Gdx.files.internal("../images/Dino-stand.png"));
-        leftFootDino = new Texture(Gdx.files.internal("../images/Dino-left-up.png"));
-        rightFootDino = new Texture(Gdx.files.internal("../images/Dino-right-up.png"));
-        deadDino = new Texture(Gdx.files.internal("../images/Dino-big-eyes.png"));
+        
+        topPointReached = false;
+        image = new Texture(Gdx.files.internal("Dino-stand.png"));
+        leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
+        rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
+        deadDino = new Texture(Gdx.files.internal("Dino-big-eyes.png"));
         
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
