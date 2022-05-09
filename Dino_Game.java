@@ -75,11 +75,11 @@ public class Dino_Game extends ApplicationAdapter
         leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
         rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
         deadDino = new Texture(Gdx.files.internal("Dino-big-eyes.png"));
-        cactus1 = new Texture(Gdx.files.internal("Cactus-1"));
-        cactus2 = new Texture(Gdx.files.internal("Cactus-2"));
-        cactus3 = new Texture(Gdx.files.internal("Cactus-3"));
-        cactus4 = new Texture(Gdx.files.internal("Cactus-4"));
-        cactus5 = new Texture(Gdx.files.internal("Cactus-5"));
+        tCactus1 = new Texture(Gdx.files.internal("Cactus-1"));
+        tCactus2 = new Texture(Gdx.files.internal("Cactus-2"));
+        tCactus3 = new Texture(Gdx.files.internal("Cactus-3"));
+        tCactus4 = new Texture(Gdx.files.internal("Cactus-4"));
+        tCactus5 = new Texture(Gdx.files.internal("Cactus-5"));
         ground = new Texture(Gdx.files.internal("Ground"));
         sun = new Texture(Gdx.files.internal("Sun"));
         
