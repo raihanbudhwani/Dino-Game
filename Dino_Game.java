@@ -119,7 +119,7 @@ public class Dino_Game extends ApplicationAdapter
     Gdx.gl.glClearColor(64/255f, 64/255f, 64/255f, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.begin();
-    batch.draw(dino, 0, 0);
+    batch.draw(leftFootDino, 0, 0);
     batch.end();
     
     
