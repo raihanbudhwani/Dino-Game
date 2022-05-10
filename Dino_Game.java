@@ -113,6 +113,17 @@ public class Dino_Game extends ApplicationAdapter
     //renderer
 
     public void renderer(){
+    
+    
+    //background color - dark grey
+    Gdx.gl.glClearColor(64/255f, 64/255f, 64/255f, 1);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    batch.begin();
+    batch.draw(dino, 0, 0);
+    batch.end();
+    
+    
+    
         if(gamestate == GameState.MENU){
             Vector2 clickLoc = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY())); 
             batch.setProjectionMatrix(viewport.getCamera().combined);
