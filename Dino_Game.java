@@ -27,19 +27,32 @@ public class Dino_Game extends ApplicationAdapter
 
     private int timer;
     private int highScore;
+    private int state; //example: dead, running, jumping
+    private int jumpFactor;
 
-    private Rectangle rCactus1, rCactus2, rCactus3, rCactus4, rCactus5;
+
+    private Rectangle rCactus1;
+    private Rectangle rCactus2;
+    private Rectangle rCactus3;
+    private Rectangle rCactus4;
+    private Rectangle rCactus5;
     private Rectangle bird;
     private Rectangle dino;
-    
     private Rectangle startButton;
+    
     private Texture start;
     private Texture startHighlight;
-    
     private Texture image;
     private Texture leftFootDino;
     private Texture rightFootDino;
-    private Texture deadDino, tCactus1, tCactus2, tCactus3, tCactus4, tCactus5, ground, sun;
+    private Texture deadDino;
+    private Texture tCactus1;
+    private Texture tCactus2;
+    private Texture tCactus3;
+    private Texture tCactus4;
+    private Texture tCactus5;
+    private Texture ground;
+    private Texture sun;
     
     private final int GRAVITY = 1;
     private final int DINOSPEED = 10;
@@ -51,26 +64,30 @@ public class Dino_Game extends ApplicationAdapter
     private ShapeRenderer renderer; //used to draw textures and fonts 
     private BitmapFont font; //used to draw fonts (text)
     private SpriteBatch batch; //also needed to draw fonts (text)
-    private static int jumpFactor = 20;
-    private final int LEFT_FOOT = 1, RIGHT_FOOT = 2, NO_FOOT = 3;
-    private static boolean topPointReached;
-    private static int state; //example: dead, running, jumping
-
-
-
-    public static final float WORLD_WIDTH = 400; 
-    public static final float WORLD_HEIGHT = 400;
-    public static final int STAND_STILL = 1, RUNNING = 2, JUMPING = 3, DIE = 4;
+    
+    private boolean topPointReached;
+    
+    private final int LEFT_FOOT = 1
+    private final int RIGHT_FOOT = 2;
+    private final int NO_FOOT = 3;
+    private final int WORLD_WIDTH = 400; 
+    private final int WORLD_HEIGHT = 400;
+    private final int STAND_STILL = 1
+    private final int RUNNING = 2;
+    private final int JUMPING = 3;
+    private final int DIE = 4;
   
 
-
-    //constructor
-    
+    //constructor    
     public void create(){
 
         //find images put in same folder
         
         topPointReached = false;
+        
+        start = new Texture(Gdx.files.internal("start.png"));//make and upload picture 
+        startHighlight = new Texture(Gdx.files.internal("startHighlight.png"));//make and upload picture
+        startButton = new Rectangle(WORLD_WIDTH / 2 - 64, WORLD_HEIGHT / 2 - 64, 128, 128);//make and upload picture
         image = new Texture(Gdx.files.internal("Dino-stand.png"));
         leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
         rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
@@ -83,20 +100,17 @@ public class Dino_Game extends ApplicationAdapter
         ground = new Texture(Gdx.files.internal("Ground.png"));
         sun = new Texture(Gdx.files.internal("Sun.png"));
         
-        
-        
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
         renderer = new ShapeRenderer(); 
         font = new BitmapFont(); 
-        batch = new SpriteBatch(); 
+        batch = new SpriteBatch();
+        
         gamestate = GameState.MENU;
+        
         timer = 0;
         highScore = 0;
-        
-        start = new Texture(Gdx.files.internal("start.png"));//make and upload picture 
-        startHighlight = new Texture(Gdx.files.internal("startHighlight.png"));//make and upload picture
-        startButton = new Rectangle(WORLD_WIDTH / 2 - 64, WORLD_HEIGHT / 2 - 64, 128, 128);//make and upload picture
+        jumpFactor = 20;
 
         //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
         bird = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 50, 15);
@@ -176,6 +190,7 @@ public class Dino_Game extends ApplicationAdapter
         if(timer > highScore){
             highScore = timer;
         }
+        reset();
         //Add more logic
     }
 
