@@ -169,63 +169,42 @@ public class Dino_Game extends ApplicationAdapter
                 dino.y = startLocation;
             }
             batch.begin();
+
             batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
             batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
             batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);//dino
+
+            batch.draw(tCactus1, rCactus1.x, rCactus1.y, rCactus1.width, rCactus1.height);
+            batch.draw(tCactus2, rCactus2.x, rCactus2.y, rCactus2.width, rCactus2.height);
+            batch.draw(tCactus3, rCactus3.x, rCactus3.y, rCactus3.width, rCactus3.height);
+            batch.draw(tCactus4, rCactus4.x, rCactus4.y, rCactus4.width, rCactus4.height);
+            batch.draw(tCactus5, rCactus5.x, rCactus5.y, rCactus5.width, rCactus5.height);
+
             batch.end();
-            //if((int)(Math.random()*60+1) == 30){
-            enemy();
+
             rCactus1.x -= 5;
             rCactus2.x -= 5;
             rCactus3.x -= 5;
             rCactus4.x -= 5;
             rCactus5.x -= 5;
+
             if(rCactus1.x < 0)
                 rCactus1.x = WORLD_WIDTH;
             if(rCactus2.x < 0)
-                rCactus2.x = WORLD_WIDTH;
+                rCactus2.x = WORLD_WIDTH+1000;
             if(rCactus3.x < 0)
-                rCactus3.x = WORLD_WIDTH;
+                rCactus3.x = WORLD_WIDTH+2000;
             if(rCactus4.x < 0)
-                rCactus4.x = WORLD_WIDTH;
+                rCactus4.x = WORLD_WIDTH+3000;
             if(rCactus5.x < 0)
-                rCactus5.x = WORLD_WIDTH;
-            //}
-            if(hasCollided()){
+                rCactus5.x = WORLD_WIDTH+4000;
+
+            if(hasCollided())
                 endGame();
-            }
-        }
-    }
-    //logic for game
-    public void enemy(){
-        int rand = (int)(Math.random()*5+1);
-        if(rand == 1){
-            batch.begin();
-            batch.draw(tCactus1, rCactus1.x, rCactus1.y, rCactus1.width, rCactus1.height);
-            batch.end();
-        }
-        else if(rand == 2){
-            batch.begin();
-            batch.draw(tCactus2, rCactus2.x, rCactus2.y, rCactus2.width, rCactus2.height);
-            batch.end();
-        }
-        else if(rand == 3){
-            batch.begin();
-            batch.draw(tCactus3, rCactus3.x, rCactus3.y, rCactus3.width, rCactus3.height);
-            batch.end();
-        }
-        else if(rand == 4){
-            batch.begin();
-            batch.draw(tCactus4, rCactus4.x, rCactus4.y, rCactus4.width, rCactus4.height);
-            batch.end();
-        }
-        else{
-            batch.begin();
-            batch.draw(tCactus5, rCactus5.x, rCactus5.y, rCactus5.width, rCactus5.height);
-            batch.end();
         }
     }
 
+    //logic for game
     public void endGame(){
         if(timer > highScore){
             highScore = timer;
@@ -233,8 +212,11 @@ public class Dino_Game extends ApplicationAdapter
         reset();
     }
 
+    //Change the y and x of the rectangles to the top right instead of top left
     public boolean hasCollided(){
-        if(dino.x == rCactus1.x || dino.x == rCactus2.x || dino.x == rCactus3.x || dino.x == rCactus4.x || dino.x == rCactus5.x){
+        if((dino.x == rCactus1.x && dino.y == rCactus1.y) || (dino.x == rCactus2.x && dino.y == rCactus2.y)
+        || (dino.x == rCactus3.x && dino.y == rCactus3.y) || (dino.x == rCactus4.x && dino.y == rCactus4.y)
+        || (dino.x == rCactus5.x && dino.y == rCactus5.y)){
             return true;
         }
         else{
@@ -246,10 +228,10 @@ public class Dino_Game extends ApplicationAdapter
         timer = 0;
         gamestate = GameState.MENU;
         rCactus1.x = WORLD_WIDTH;
-        rCactus2.x = WORLD_WIDTH;
-        rCactus3.x = WORLD_WIDTH;
-        rCactus4.x = WORLD_WIDTH;
-        rCactus5.x = WORLD_WIDTH;
+        rCactus2.x = WORLD_WIDTH+1000;
+        rCactus3.x = WORLD_WIDTH+2000;
+        rCactus4.x = WORLD_WIDTH+3000;
+        rCactus5.x = WORLD_WIDTH+4000;
     }
 
     @Override
