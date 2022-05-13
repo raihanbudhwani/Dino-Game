@@ -25,11 +25,11 @@ public class Dino_Game extends ApplicationAdapter
 {
     //instance variables
 
-    private int timer;
-    private int highScore;
-    private int jumpFactor;
+    private double timer;
+    private double highScore;
     private int startLocation;
     private int yVelocity;
+    private int maxHeight;
 
     private Rectangle rCactus1;
     private Rectangle rCactus2;
@@ -104,12 +104,12 @@ public class Dino_Game extends ApplicationAdapter
 
         gamestate = GameState.MENU;
 
-        startLocation = 140;
         timer = 0;
         highScore = 0;
         yVelocity = 0;
-
-        //all the inputed widths and heights for the objects might need to be changed later to fit the proportions
+        maxHeight = 140;
+        startLocation = 140;
+        
         //startButton = new Rectangle(WORLD_WIDTH/2, WORLD_HEIGHT/2, 50, 15);
         bird = new Rectangle(WORLD_WIDTH, WORLD_HEIGHT, 50, 15);
         rCactus1 = new Rectangle(WORLD_WIDTH+1000, WORLD_HEIGHT-210, WORLD_WIDTH/12, WORLD_HEIGHT/7);
@@ -125,6 +125,7 @@ public class Dino_Game extends ApplicationAdapter
         Gdx.gl.glClearColor(0,0,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
+
         if(gamestate == GameState.MENU){
             // Vector2 clickLoc = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY())); 
             // batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -135,9 +136,9 @@ public class Dino_Game extends ApplicationAdapter
             batch.begin();
             batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
             batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
-            batch.draw(dinoNorm, 50, 140, WORLD_WIDTH/12, WORLD_HEIGHT/7);//dino
+            batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);//dino
             font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);//font to the screen
-            font.draw(batch, layout2, WOROLD_WIDTH/3 - layout2.width/2, WORLD_HEIGHT/3 + layout.height/2);
+            font.draw(batch, layout2, WORLD_WIDTH/2 - layout2.width/2, ((WORLD_HEIGHT/3)+10) + layout.height/2);
             batch.end();
             // if(!startButton.contains(clickLoc))
             // batch.draw(start, 
@@ -155,24 +156,49 @@ public class Dino_Game extends ApplicationAdapter
             if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
                 gamestate = GameState.GAME;
             }
-            if(Gdx.input.isKeyJustPressed(Keys.ESC)){
+            if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
                 gamestate = GameState.INSTRUCTIONS;
             }
         }
-        if(gameState == GameState.INSTRUCTIONS){
-            layout.setText(font, "Press SPACE to jump over the cacti and don't get hit!!");
+
+        if(gamestate == GameState.GAMEOVER){
+            layout.setText(font, "Press ENTER to Play Again or ESCAPE to go to the Menu");
+            batch.begin();
+            batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
+            batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
+            batch.draw(deadDino, 50, 140, WORLD_WIDTH/12, WORLD_HEIGHT/7);
+            font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
+            batch.end();
+            if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
+                gamestate = GameState.GAME;
+            }
+            if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
+                gamestate = GameState.MENU;
+            }
+        }
+
+        if(gamestate == GameState.INSTRUCTIONS){
+            layout.setText(font, "Press SPACE to Jump Over the Cacti and Don't Get Hit!!");
+            layout2.setText(font, "Press SPACE to go Back to Menu");
             batch.begin();
             font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
             batch.end();
+            if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+                gamestate = GameState.MENU;
+            }    
         }
+
         if(gamestate == GameState.GAME)
         {  
-            int rand = (int)(Math.random()*5000+1);
-            timer += 0.01;
+            timer += 0.017;            
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
             {
-                //System.out.print(gamestate);
-                dino.y += DINOSPEED;
+                //batch.begin();
+                //batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);
+                //batch.end();
+                if(dino.y <= maxHeight){
+                    dino.y += DINOSPEED;
+                }
             }
             dino.y -= 1.75;
             if(dino.y == startLocation){
@@ -181,11 +207,14 @@ public class Dino_Game extends ApplicationAdapter
             if(dino.y < startLocation){
                 dino.y = startLocation;
             }
+
             batch.begin();
 
             batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
             batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
-            batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);//dino
+            batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);
+            //batch.draw(leftFootDino, dino.x, dino.y, dino.width, dino.height);//dino
+            //batch.draw(rightFootDino, dino.x, dino.y, dino.width, dino.height);
 
             batch.draw(tCactus1, rCactus1.x, rCactus1.y, rCactus1.width, rCactus1.height);
             batch.draw(tCactus2, rCactus2.x, rCactus2.y, rCactus2.width, rCactus2.height);
@@ -195,25 +224,36 @@ public class Dino_Game extends ApplicationAdapter
 
             batch.end();
 
-            rCactus1.x -= 4;
-            rCactus2.x -= 4;
-            rCactus3.x -= 4;
-            rCactus4.x -= 4;
-            rCactus5.x -= 4;
+            rCactus1.x -= 3;
+            rCactus2.x -= 3;
+            rCactus3.x -= 3;
+            rCactus4.x -= 3;
+            rCactus5.x -= 3;
 
-            if(rCactus1.x < 0)
+            if(rCactus1.x < 0){
+                int rand = (int)(Math.random()*4000+1);
                 rCactus1.x = WORLD_WIDTH+rand;
-            if(rCactus2.x < 0)
+            }
+            if(rCactus2.x < 0){
+                int rand = (int)(Math.random()*4000+1);
                 rCactus2.x = WORLD_WIDTH+rand;
-            if(rCactus3.x < 0)
+            }
+            if(rCactus3.x < 0){
+                int rand = (int)(Math.random()*4000+1);
                 rCactus3.x = WORLD_WIDTH+rand;
-            if(rCactus4.x < 0)
+            }
+            if(rCactus4.x < 0){
+                int rand = (int)(Math.random()*4000+1);
                 rCactus4.x = WORLD_WIDTH+rand;
-            if(rCactus5.x < 0)
+            }
+            if(rCactus5.x < 0){
+                int rand = (int)(Math.random()*4000+1);
                 rCactus5.x = WORLD_WIDTH+rand;
-
-            if(hasCollided())
+            }
+            if(hasCollided()){
                 endGame();
+                gamestate = GameState.GAMEOVER;
+            }
         }
     }
 
@@ -239,7 +279,6 @@ public class Dino_Game extends ApplicationAdapter
 
     public void reset(){
         timer = 0;
-        gamestate = GameState.MENU;
         rCactus1.x = WORLD_WIDTH+1000;
         rCactus2.x = WORLD_WIDTH+2000;
         rCactus3.x = WORLD_WIDTH+3000;
