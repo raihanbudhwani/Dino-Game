@@ -154,12 +154,12 @@ public class Dino_Game extends ApplicationAdapter
             }
         }
         if(gamestate == GameState.GAME)
-        {
-            timer += 0.01;  
+        {  
+            timer += 0.01;
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
             {
                 //System.out.print(gamestate);
-                dino.y += DINOSPEED;
+                dino.y += yVelocity;
             }
             dino.y -= 1.75;
             if(dino.y == startLocation){
