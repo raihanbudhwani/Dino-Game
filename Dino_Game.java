@@ -20,10 +20,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.InputProcessor; 
 import com.badlogic.gdx.*; 
 import com.badlogic.gdx.utils.Array;
+import java.util.*;
+//import com.badlogic.gdx.audio;
 
 public class Dino_Game extends ApplicationAdapter
 {
     //instance variables
+
     private float yVel; 
     private float timer;
     private float highScore;
@@ -115,7 +118,6 @@ public class Dino_Game extends ApplicationAdapter
         rBird = new Rectangle(WORLD_WIDTH+3000, WORLD_HEIGHT-150, WORLD_WIDTH/10, WORLD_HEIGHT/7);
         dino = new Rectangle(WORLD_WIDTH-600, WORLD_HEIGHT-210, WORLD_WIDTH/12-10, WORLD_HEIGHT/7);
         ground = new Rectangle(0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
-        hitBox = new Rectangle(WORLD_WIDTH-600, WORLD_HEIGHT-210, WORLD_WIDTH/12, WORLD_HEIGHT/7);
     }
 
     //renderer
@@ -125,7 +127,7 @@ public class Dino_Game extends ApplicationAdapter
         viewport.apply();
 
         if(gamestate == GameState.MENU){
-            layout.setText(font, "HI    " + highScore + "    " + timer);
+            layout.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
             batch.begin();
             font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2); //change this later
             batch.end();
@@ -151,14 +153,12 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.GAMEOVER){
-            if(highScore >= 1000){
+            if(timer >= 1000){
                 gamestate = GameState.EASTEREGG;
             }
 
-            layout.setText(font, "HI    " + highScore + "    " + timer);
-            batch.begin();
-            font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2); //change this later
-            batch.end();
+            layout2.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
+
             dino.x = WORLD_WIDTH-600;
             dino.y = WORLD_HEIGHT-210;
             layout.setText(font, "Press ENTER to Play Again or ESCAPE to go to the Menu");
@@ -168,7 +168,9 @@ public class Dino_Game extends ApplicationAdapter
             batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
             batch.draw(deadDino, dino.x, dino.y, dino.width, dino.height);
             font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
+            font.draw(batch, layout2, WORLD_WIDTH-43 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2);
             batch.end();
+            timer = 0;
             if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
                 gamestate = GameState.GAME;
             }
@@ -190,7 +192,7 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.EASTEREGG){
-            layout.setText(font, "HI    " + highScore + "    " + timer);
+            layout.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
             batch.begin();
             font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2); //change this later
             batch.end();
@@ -203,30 +205,30 @@ public class Dino_Game extends ApplicationAdapter
             }
             batch.begin();
             batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
-            batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
+            batch.draw(tGround, ground.x, ground.y, ground.width, ground.height);//ground
             batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
             batch.draw(deadDino, dino.x, dino.y, dino.width, dino.height);
-            font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
             batch.draw(tMeteor, rMeteor.x, rMeteor.y, rMeteor.width, rMeteor.height);
             batch.end();
-            
-            rMeteor.x + 25;
-            rMeteor.y + 25;
 
-            batch.begin();
-            batch.draw(explosion, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
-            batch.end();
-            // if(rMeteor.overlaps(ground)){
-            // batch.begin();
-            // batch.draw(explosion, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
-            // batch.end();
-            // }
+            rMeteor.x -= 10;
+            rMeteor.y -= 10;
+
+            if(rMeteor.overlaps(ground)){
+                rMeteor.x = 0;
+                rMeteor.y = 140;                
+                batch.begin();
+                batch.draw(tMeteor, 0, 0, 0, 0);
+                batch.draw(explosion, WORLD_WIDTH-425, WORLD_HEIGHT-210, 200, 200);
+                font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
+                batch.end();
+            }
         }
 
         if(gamestate == GameState.GAME)
         {     
-            layout.setText(font, "HI    " + highScore + "    " + timer);
             timer += 10;
+            layout.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
             {
                 batch.begin();
@@ -241,10 +243,10 @@ public class Dino_Game extends ApplicationAdapter
             if(dino.y < maxHeight){//don't fall through the ground
                 dino.y = maxHeight;
             }
-
+            
             batch.begin();
             batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
-            batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
+            batch.draw(tGround, ground.x, ground.y, ground.width, ground.height);//ground
             batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
             batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);
 
@@ -270,6 +272,9 @@ public class Dino_Game extends ApplicationAdapter
                 rCactus4.x -= cactusSpeed;
                 rCactus5.x -= cactusSpeed;
                 rBird.x -= cactusSpeed;
+                ground.x -= cactusSpeed;
+                if(ground.x < 0)
+                    ground.x = WORLD_WIDTH;
             }
 
             if(timer >= 50 && timer < 100){
@@ -280,7 +285,11 @@ public class Dino_Game extends ApplicationAdapter
                 rCactus4.x -= cactusSpeed;
                 rCactus5.x -= cactusSpeed;
                 rBird.x -= cactusSpeed;
+                ground.x -= cactusSpeed;
+                if(ground.x < 0)
+                    ground.x = WORLD_WIDTH;
             }
+            //add while loop for ground thingy
 
             if(timer >= 100){
                 cactusSpeed = 12;
@@ -290,6 +299,9 @@ public class Dino_Game extends ApplicationAdapter
                 rCactus4.x -= cactusSpeed;
                 rCactus5.x -= cactusSpeed;
                 rBird.x -= cactusSpeed;
+                ground.x -= cactusSpeed;
+                if(ground.x < 0)
+                    ground.x = WORLD_WIDTH;
             }
 
             if(rCactus1.x < 0){
@@ -382,7 +394,7 @@ public class Dino_Game extends ApplicationAdapter
     //Change the y and x of the rectangles to the top right instead of top left
     public boolean hasCollided(){
         if(dino.overlaps(rCactus1) || dino.overlaps(rCactus2) || dino.overlaps(rCactus3) || dino.overlaps(rCactus4) || dino.overlaps(rCactus5)
-        || dino.overlaps(rBird)){
+        || dino.overlaps(rBird) || rMeteor.overlaps(ground)){
             return true;
         }
         else{
@@ -391,7 +403,8 @@ public class Dino_Game extends ApplicationAdapter
     }
 
     public void reset(){
-        timer = 0;
+        rMeteor.x = WORLD_WIDTH/2+100;
+        rMeteor.y = WORLD_HEIGHT/2+300;
         rBird.x = WORLD_WIDTH+5000;
         rCactus1.x = WORLD_WIDTH+500;
         rCactus2.x = WORLD_WIDTH+1000;
@@ -410,5 +423,4 @@ public class Dino_Game extends ApplicationAdapter
         renderer.dispose(); 
         batch.dispose(); 
     }
-}
 }
