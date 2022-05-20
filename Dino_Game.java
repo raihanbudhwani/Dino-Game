@@ -450,36 +450,36 @@ public class Dino_Game extends ApplicationAdapter
                 rBird.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus1.x + 50 >= rCactus2.x || rCactus1.x + 50 >= rCactus3.x || rCactus1.x + 50 >= rCactus4.x || rCactus1.x + 50 >= rCactus5.x
-            || rCactus1.x - 50 >= rCactus2.x || rCactus1.x - 50 >= rCactus3.x || rCactus1.x - 50 >= rCactus4.x || rCactus1.x - 50 >= rCactus5.x)
+            if(rCactus1.x + 50 >= rCactus2.x || rCactus1.x + 50 >= rCactus3.x || rCactus1.x + 50 >= rCactus4.x || rCactus1.x + 50 >= rCactus5.x || rCactus1.x + 50 >= rBird.x
+            || rCactus1.x - 50 >= rCactus2.x || rCactus1.x - 50 >= rCactus3.x || rCactus1.x - 50 >= rCactus4.x || rCactus1.x - 50 >= rCactus5.x || rCactus1.x - 50 >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus1.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus2.x + 50 >= rCactus1.x || rCactus2.x + 50 >= rCactus3.x || rCactus2.x + 50 >= rCactus4.x || rCactus2.x + 50 >= rCactus5.x
-            || rCactus2.x - 50 >= rCactus1.x || rCactus2.x - 50 >= rCactus3.x || rCactus2.x - 50 >= rCactus4.x || rCactus2.x - 50 >= rCactus5.x)
+            if(rCactus2.x + 50 >= rCactus1.x || rCactus2.x + 50 >= rCactus3.x || rCactus2.x + 50 >= rCactus4.x || rCactus2.x + 50 >= rCactus5.x || rCactus2.x + 50 >= rBird.x
+            || rCactus2.x - 50 >= rCactus1.x || rCactus2.x - 50 >= rCactus3.x || rCactus2.x - 50 >= rCactus4.x || rCactus2.x - 50 >= rCactus5.x || rCactus2.x - 50 >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus2.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus3.x + 50 >= rCactus2.x || rCactus3.x + 50 >= rCactus1.x || rCactus3.x + 50 >= rCactus4.x || rCactus3.x + 50 >= rCactus5.x
-            || rCactus3.x - 50 >= rCactus2.x || rCactus3.x - 50 >= rCactus1.x || rCactus3.x - 50 >= rCactus4.x || rCactus3.x - 50 >= rCactus5.x)
+            if(rCactus3.x + 50 >= rCactus2.x || rCactus3.x + 50 >= rCactus1.x || rCactus3.x + 50 >= rCactus4.x || rCactus3.x + 50 >= rCactus5.x || rCactus3.x + 50 >= rBird.x
+            || rCactus3.x - 50 >= rCactus2.x || rCactus3.x - 50 >= rCactus1.x || rCactus3.x - 50 >= rCactus4.x || rCactus3.x - 50 >= rCactus5.x || rCactus3.x - 50 >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus3.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus4.x + 50 >= rCactus2.x || rCactus4.x + 50 >= rCactus3.x || rCactus4.x + 50 >= rCactus1.x || rCactus4.x +50 >= rCactus5.x
-            || rCactus4.x - 50 >= rCactus2.x || rCactus4.x - 50 >= rCactus3.x || rCactus4.x - 50 >= rCactus1.x || rCactus4.x - 50 >= rCactus5.x)
+            if(rCactus4.x + 50 >= rCactus2.x || rCactus4.x + 50 >= rCactus3.x || rCactus4.x + 50 >= rCactus1.x || rCactus4.x + 50 >= rCactus5.x || rCactus4.x + 50 >= rBird.x
+            || rCactus4.x - 50 >= rCactus2.x || rCactus4.x - 50 >= rCactus3.x || rCactus4.x - 50 >= rCactus1.x || rCactus4.x - 50 >= rCactus5.x || rCactus4.x - 50 >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus4.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus5.x + 50 >= rCactus2.x || rCactus5.x + 50 >= rCactus3.x || rCactus5.x + 50 >= rCactus4.x || rCactus5.x + 50 >= rCactus1.x
-            || rCactus5.x - 50 >= rCactus2.x || rCactus5.x - 50 >= rCactus3.x || rCactus5.x - 50 >= rCactus4.x || rCactus5.x -50 >= rCactus1.x)
+            if(rCactus5.x + 50 >= rCactus2.x || rCactus5.x + 50 >= rCactus3.x || rCactus5.x + 50 >= rCactus4.x || rCactus5.x + 50 >= rCactus1.x || rCactus5.x + 50 >= rBird.x
+            || rCactus5.x - 50 >= rCactus2.x || rCactus5.x - 50 >= rCactus3.x || rCactus5.x - 50 >= rCactus4.x || rCactus5.x - 50 >= rCactus1.x || rCactus5.x - 50 >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus5.x = WORLD_WIDTH+rand;
