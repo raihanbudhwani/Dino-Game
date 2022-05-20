@@ -290,6 +290,8 @@ public class Dino_Game extends ApplicationAdapter
                     ground.x = WORLD_WIDTH;
             }
             //add while loop for ground thingy
+            //add multiple backgrounds so that it can reset without error
+            //try both options to see if they'll work
 
             if(timer >= 100){
                 cactusSpeed = 12;
