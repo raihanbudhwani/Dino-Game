@@ -25,7 +25,7 @@ import com.badlogic.gdx.audio.*;
 
 //FIX THESE THINGS!!!!!!
 //dino step
-//clouds
+//clouds = done
 //explosion easter egg
 //sounds --> explosion and jump and dead
 //bird generation
@@ -41,6 +41,8 @@ public class Dino_Game extends ApplicationAdapter
 
     private Sound jumpSound;
     private Sound deadSound;
+    private Sound hundoScore;
+    private Sound explosionSound;
     private Music music;
 
     private Rectangle rCactus1;
@@ -122,11 +124,13 @@ public class Dino_Game extends ApplicationAdapter
 
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.wav"));
         deadSound = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.wav"));
+        hundoScore = Gdx.audio.newSound(Gdx.files.internal("hundoScore.wav"));
 
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
         renderer = new ShapeRenderer(); 
-        font = new BitmapFont(); 
+        font = new BitmapFont(Gdx.files.internal("score.fnt")); 
         batch = new SpriteBatch();
         layout = new GlyphLayout();
         layout2 = new GlyphLayout();
@@ -148,8 +152,8 @@ public class Dino_Game extends ApplicationAdapter
         rBird = new Rectangle(WORLD_WIDTH+3000, WORLD_HEIGHT-150, WORLD_WIDTH/10, WORLD_HEIGHT/7);
         dino = new Rectangle(WORLD_WIDTH-600, WORLD_HEIGHT-210, WORLD_WIDTH/12-10, WORLD_HEIGHT/7);
         ground = new Rectangle(0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
-        ground2 = new Rectangle(WORLD_WIDTH, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
-        ground3 = new Rectangle(WORLD_WIDTH*2, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
+        ground2 = new Rectangle(WORLD_WIDTH, 135, WORLD_WIDTH+30, WORLD_HEIGHT/9);
+        ground3 = new Rectangle(WORLD_WIDTH*2, 135, WORLD_WIDTH+30, WORLD_HEIGHT/9);
         rCloud1 = new Rectangle(385, 220, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
         rCloud2 = new Rectangle(250, 275, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
         rCloud3 = new Rectangle(100, 230, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
@@ -162,9 +166,15 @@ public class Dino_Game extends ApplicationAdapter
         viewport.apply();
 
         if(gamestate == GameState.MENU){
-            layout.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
+            //layout.setText(font, "HI " + (int)highScore + " " + (int)timer);
+            
+            GlyphLayout scoreLayout = new GlyphLayout(font, "" + timer);
+            
+            font.getData().setScale(0.5f, 0.5f);
+            
+            
             batch.begin();
-            font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2); //change this later
+            font.draw(batch, layout, 200, 200); //change this later
             batch.end();
             layout.setText(font, "Press ENTER to Begin Game");
             layout2.setText(font, "Press ESC for Instructions");
@@ -178,8 +188,8 @@ public class Dino_Game extends ApplicationAdapter
             batch.draw(tCloud1, 385, 220, WORLD_WIDTH/5, WORLD_HEIGHT/5);//cloud
             batch.draw(tCloud2,250, 275, WORLD_WIDTH/5, WORLD_HEIGHT/5);//cloud
             batch.draw(tCloud3,100, 230, WORLD_WIDTH/5, WORLD_HEIGHT/5);//cloud
-            font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);//font to the screen
-            font.draw(batch, layout2, WORLD_WIDTH/2 - layout2.width/2, ((WORLD_HEIGHT/3)+10) + layout.height/2);
+            font.draw(batch, layout,115, 185);//font to the screen
+            font.draw(batch, layout2, 115, 135);
             batch.end();
 
             if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
@@ -194,12 +204,13 @@ public class Dino_Game extends ApplicationAdapter
             if(timer >= 1000){
                 gamestate = GameState.EASTEREGG;
             }
+            font.getData().setScale(0.5f, 0.5f);
 
-            layout2.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
+            layout2.setText(font, "HI " + (int)highScore + "  " + (int)timer);
 
             dino.x = WORLD_WIDTH-600;
             dino.y = WORLD_HEIGHT-210;
-            layout.setText(font, "Press ENTER to Play Again or ESCAPE to go to the Menu");
+            layout.setText(font, "Press ENTER to Play Again or\n \n ESCAPE to go to the Menu");
             batch.begin();
             batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
             batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
@@ -210,8 +221,8 @@ public class Dino_Game extends ApplicationAdapter
             batch.draw(tCloud2, rCloud2.x, rCloud2.y, rCloud2.width, rCloud2.height);//cloud
             batch.draw(tCloud3, rCloud3.x, rCloud3.y, rCloud3.width, rCloud3.height);//cloud
             batch.draw(deadDino, dino.x, dino.y, dino.width, dino.height);
-            font.draw(batch, layout, WORLD_WIDTH/2 - layout.width/2, WORLD_HEIGHT/2 + layout.height/2);
-            font.draw(batch, layout2, WORLD_WIDTH-43 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2);
+            font.draw(batch, layout,100,185);
+            font.draw(batch, layout2, 393, WORLD_HEIGHT-67 + layout.height/2);
 
             batch.end();
 
@@ -237,7 +248,7 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.EASTEREGG){
-            layout.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
+            layout.setText(font, "HI " + (int)highScore + "  " + (int)timer);
             layout2.setText(font, "Press ENTER to Play Again or ESCAPE to go to the Menu");
             if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
                 gamestate = GameState.GAME;
@@ -261,8 +272,11 @@ public class Dino_Game extends ApplicationAdapter
             if(rMeteor.overlaps(dino)){
                 rMeteor.x = WORLD_WIDTH-600;
                 rMeteor.y = WORLD_HEIGHT-210;
+                long id = explosionSound.play(1.0f);
+                //explosionSound.setPitch(id, 1);
+                explosionSound.setLooping(id, false);
                 batch.begin();
-                batch.draw(explosion, 200, 135, 200, 200);
+                batch.draw(explosion, 230, 135, 200, 200);
                 batch.end();
             }
             batch.begin();
@@ -274,7 +288,8 @@ public class Dino_Game extends ApplicationAdapter
         if(gamestate == GameState.GAME)
         {     
             timer += 0.03;
-            layout.setText(font, "HI    " + (int)highScore + "    " + (int)timer);
+            layout.setText(font, "HI " + (int)highScore + "  " + (int)timer);
+            
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
             {
                 long id = jumpSound.play(1.0f);
@@ -589,8 +604,5 @@ public class Dino_Game extends ApplicationAdapter
     public void dispose(){
         renderer.dispose(); 
         batch.dispose();
-        jumpSound.dispose();
-        deadSound.dispose();
-        music.dispose();
     }
 }
