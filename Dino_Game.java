@@ -29,6 +29,7 @@ import java.awt.Image;
 
 //FIX THESE THINGS!!!!!!
 //dino step
+//ground gaps
 //clouds = done
 //explosion easter egg
 //sounds --> explosion and jump and dead
