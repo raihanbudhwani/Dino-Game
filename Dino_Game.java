@@ -34,7 +34,7 @@ import java.awt.Image;
 //explosion easter egg
 //sounds --> explosion and jump and dead
 //jump = done, dead = done, explosion = wierd sound keeps repeating
-//bird generation
+//bird generation = done
 
 public class Dino_Game extends ApplicationAdapter
 {
@@ -278,7 +278,7 @@ public class Dino_Game extends ApplicationAdapter
             rMeteor.y -= 10;
 
             long id = explosionSound.play(1.0f);
-            explosionSound.setLooping(id, false);
+            explosionSound.setLooping(id, false); //does this loop??
 
             if(rMeteor.overlaps(dino)){
                 rMeteor.x = WORLD_WIDTH-600;
@@ -317,7 +317,7 @@ public class Dino_Game extends ApplicationAdapter
             yVel -= GRAVITY; 
             dino.y += yVel;     
 
-            if(dino.y < maxHeight){//don't fall through the ground
+            if(dino.y < maxHeight){ //don't fall through the ground
                 dino.y = maxHeight;
             }
 
@@ -332,7 +332,7 @@ public class Dino_Game extends ApplicationAdapter
             //batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);//dino
             batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
 
-            font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2); //change this later
+            font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2);
 
             batch.draw(dinosaur, dino.x, dino.y, dino.width, dino.height); //////// DINO RUNNNNNN, SWAP LEFT RIGHT FOOT
 
