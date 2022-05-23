@@ -24,16 +24,9 @@ import java.util.*;
 import com.badlogic.gdx.audio.*;
 import java.awt.Image;
 
-//import java.awt
-
 //FIX THESE THINGS!!!!!!
-//dino step
-//ground gaps
-//clouds = done
 //explosion easter egg
-//sounds --> explosion and jump and dead
-//jump = done, dead = done, explosion = wierd sound keeps repeating
-//bird generation = done
+//fix sound and meteor
 
 public class Dino_Game extends ApplicationAdapter
 {
@@ -177,9 +170,9 @@ public class Dino_Game extends ApplicationAdapter
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
 
-        if((int)timer < 0.03){
-            long id4 = backgroundMusic.play(1.0f);
-            backgroundMusic.setLooping(id4, false);
+        if((int)timer <= 0.03){
+            long id4 = backgroundMusic.play(.5f);
+            backgroundMusic.setLooping(id4, true);
         }
 
         if(gamestate == GameState.MENU){
@@ -280,14 +273,14 @@ public class Dino_Game extends ApplicationAdapter
             rMeteor.x -= 10;
             rMeteor.y -= 10;
 
-            long id = explosionSound.play(1.0f);
-            explosionSound.setLooping(id, false);
-
             if(rMeteor.overlaps(dino)){
+                long id = explosionSound.play(1.0f);
+                explosionSound.setLooping(id, false);
                 rMeteor.x = WORLD_WIDTH-600;
                 rMeteor.y = WORLD_HEIGHT-210;
 
                 batch.begin();
+                batch.draw(tMeteor,rMeteor.x, rMeteor.y,rMeteor.width, rMeteor.height );
                 batch.draw(explosion, 230, 135, 200, 200);
                 batch.end();
 
@@ -300,20 +293,22 @@ public class Dino_Game extends ApplicationAdapter
 
         if(gamestate == GameState.GAME)
         {     
-            timer += 0.03;
+            timer += 0.05;
             layout.setText(font, "HI " + (int)highScore + "  " + (int)timer);
 
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
             {
-                long id = jumpSound.play(1.0f);
-                //sound.setPitch(id, 2);
+                long id = jumpSound.play(5.0f);
                 jumpSound.setLooping(id, false);
-                // batch.begin();
-                // batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);
-                // batch.end();
                 if(dino.y == maxHeight){
                     yVel = 10;
                 }
+            }
+
+            if((int)timer % 100 == 0)
+            {
+                long id5 = hundoScore.play(1.0f);
+                hundoScore.setLooping(id5, false);
             }
 
             yVel -= GRAVITY; 
@@ -337,10 +332,13 @@ public class Dino_Game extends ApplicationAdapter
 
             batch.draw(dinosaur, dino.x, dino.y, dino.width, dino.height); //////// DINO RUNNNNNN, SWAP LEFT RIGHT FOOT
 
-            if((int)timer%2 == 0){
+            if((int)timer%2 == 0 && dino.y == maxHeight){
                 dinosaur = new Texture(Gdx.files.internal("Dino-right-up.png"));
             }
-            else{
+            else if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+                dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
+            }
+            else if((int)timer%2!=0 && dino.y == maxHeight){
                 dinosaur = new Texture(Gdx.files.internal("Dino-left-up.png"));
             }
 
