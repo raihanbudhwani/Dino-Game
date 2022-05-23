@@ -177,14 +177,15 @@ public class Dino_Game extends ApplicationAdapter
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
 
-        long id4 = backgroundMusic.play(5.0f);
-        backgroundMusic.setLooping(id4, false);
+        if((int)timer < 0.03){
+            long id4 = backgroundMusic.play(1.0f);
+            backgroundMusic.setLooping(id4, false);
+        }
 
         if(gamestate == GameState.MENU){
             GlyphLayout scoreLayout = new GlyphLayout(font, "" + timer);
 
             font.getData().setScale(0.5f, 0.5f); //size of font
-
             layout.setText(font, "Press ENTER to Begin Game");
             layout2.setText(font, "Press ESC for Instructions");
             batch.setProjectionMatrix(viewport.getCamera().combined);
