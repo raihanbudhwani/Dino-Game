@@ -1,4 +1,4 @@
 public enum GameState
 {
-    MENU, GAME
+    MENU, GAME, INTSTRUCTIONS, EASTEREGG
 }
