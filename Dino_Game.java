@@ -25,10 +25,9 @@ import com.badlogic.gdx.audio.*;
 import java.awt.Image;
 import com.badlogic.gdx.Preferences;
 
-
 //FIX THESE THINGS!!!!!!
-//explosion easter egg
 //fix sound and meteor
+//duck
 
 public class Dino_Game extends ApplicationAdapter
 {
@@ -65,6 +64,8 @@ public class Dino_Game extends ApplicationAdapter
     private Texture dinoNorm;
     private Texture leftFootDino;
     private Texture rightFootDino;
+    private Texture downRightFootDino;
+    private Texture downLeftFootDino;
     private Texture deadDino;
     private Texture tCactus1;
     private Texture tCactus2;
@@ -104,17 +105,19 @@ public class Dino_Game extends ApplicationAdapter
     private final int DINOSPEED = 200;
     //constructor    
     public void create(){
-    
-        prefs = Gdx.app.getPreferences("Highscore");//
-        prefs.putInteger("highscore", highscore);//
-        prefs.flush();//
-        
-        
-        dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
 
+        prefs = Gdx.app.getPreferences("HI");
+        if(!prefs.contains("HI")){
+            prefs.putInteger("HI", 0);
+            prefs.flush();
+        }
+
+        dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
         dinoNorm = new Texture(Gdx.files.internal("Dino-stand.png"));
         leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
         rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
+        downRightFootDino = new Texture(Gdx.files.internal("Dino-below-right-up.png"));
+        downLeftFootDino = new Texture(Gdx.files.internal("Dino-below-left-up.png"));
         deadDino = new Texture(Gdx.files.internal("Dino-big-eyes.png"));
         tCactus1 = new Texture(Gdx.files.internal("Cactus-1.png"));
         tCactus2 = new Texture(Gdx.files.internal("Cactus-2.png"));
@@ -139,7 +142,7 @@ public class Dino_Game extends ApplicationAdapter
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.wav"));
         hundoScore = Gdx.audio.newSound(Gdx.files.internal("hundoScore.wav"));
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusic.wav"));
-        
+
         backgroundMusic.setVolume(0.2f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
@@ -182,24 +185,20 @@ public class Dino_Game extends ApplicationAdapter
         Gdx.gl.glClearColor(0,0,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
-        
-        
-        
-        
-        
-        
-
-        // if((int)timer <= 0.03){
-            // long id4 = backgroundMusic.play(.5f);
-            // backgroundMusic.setLooping(id4, true);
-        // }
 
         if(gamestate == GameState.MENU){
             GlyphLayout scoreLayout = new GlyphLayout(font, "" + timer);
 
             font.getData().setScale(0.5f, 0.5f); //size of font
-            layout.setText(font, "Press ENTER to Begin Game");
-            layout2.setText(font, "Press ESC for Instructions");
+            layout.setText(font, "Press ENTER to Begin Game or \n \n Press ESC for Instructions");
+
+            if(timer > prefs.getInteger("HI")){
+                prefs.putInteger("HI", (int)timer);
+                prefs.flush();
+            }
+
+            layout2.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
+
             batch.setProjectionMatrix(viewport.getCamera().combined);
 
             batch.begin();
@@ -211,7 +210,7 @@ public class Dino_Game extends ApplicationAdapter
             batch.draw(tCloud2,250, 275, WORLD_WIDTH/5, WORLD_HEIGHT/5);//cloud
             batch.draw(tCloud3,100, 230, WORLD_WIDTH/5, WORLD_HEIGHT/5);//cloud
             font.draw(batch, layout,115, 185);//font to the screen
-            font.draw(batch, layout2, 115, 135);//font to the screen
+            font.draw(batch, layout2, 393, WORLD_HEIGHT-67 + layout.height/2);//font to the screen
             batch.end();
 
             if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
@@ -228,7 +227,12 @@ public class Dino_Game extends ApplicationAdapter
             }
             font.getData().setScale(0.5f, 0.5f);
 
-            layout2.setText(font, "HI " + (int)highScore + "  " + (int)timer);
+            if(timer > prefs.getInteger("HI")){
+                prefs.putInteger("HI", (int)timer);
+                prefs.flush();
+            }
+
+            layout2.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
 
             dino.x = WORLD_WIDTH-600;
             dino.y = WORLD_HEIGHT-210;
@@ -271,7 +275,13 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.EASTEREGG){
-            layout.setText(font, "HI " + (int)highScore + "  " + (int)timer);
+            if(timer > prefs.getInteger("HI")){
+                prefs.putInteger("HI", (int)timer);
+                prefs.flush();
+            }
+
+            layout.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
+
             layout2.setText(font, "Press ENTER to Play Again or\n \n ESCAPE to go to the Menu");
             if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
                 gamestate = GameState.GAME;
@@ -311,9 +321,14 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.GAME)
-        {     
-            timer += 0.2;
-            layout.setText(font, "HI " + (int)highScore + "  " + (int)timer);
+        {   
+            timer += 0.05;
+            if(timer > prefs.getInteger("HI")){
+                prefs.putInteger("HI", (int)timer);
+                prefs.flush();
+            }
+
+            layout.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
 
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
             {
@@ -324,9 +339,9 @@ public class Dino_Game extends ApplicationAdapter
                 }
             }
 
-            if((int)timer % 100 == 0)
+            if((int)timer % 100 == 0 && (int)timer > 1)
             {
-                long id5 = hundoScore.play(1.0f);
+                long id5 = hundoScore.play(0.5f);
                 hundoScore.setLooping(id5, false);
             }
 
@@ -354,11 +369,19 @@ public class Dino_Game extends ApplicationAdapter
             if((int)timer%2 == 0 && dino.y == maxHeight){
                 dinosaur = new Texture(Gdx.files.internal("Dino-right-up.png"));
             }
-            else if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+            else if((int)timer%2 != 0 && dino.y == maxHeight){
+                dinosaur = new Texture(Gdx.files.internal("Dino-left-up.png"));
+            }
+            if(Gdx.input.isKeyPressed(Keys.SPACE)){
                 dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
             }
-            else if((int)timer%2!=0 && dino.y == maxHeight){
-                dinosaur = new Texture(Gdx.files.internal("Dino-left-up.png"));
+            if(Gdx.input.isKeyPressed(Keys.DOWN)){
+                if((int)timer%2 == 0){
+                    dinosaur = new Texture(Gdx.files.internal("Dino-below-right-up.png"));
+                }
+                else if((int)timer%2 != 0){
+                    dinosaur = new Texture(Gdx.files.internal("Dino-below-left-up.png"));
+                }
             }
 
             batch.draw(tCactus1, rCactus1.x, rCactus1.y, rCactus1.width, rCactus1.height);
