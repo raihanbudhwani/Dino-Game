@@ -23,6 +23,8 @@ import com.badlogic.gdx.utils.Array;
 import java.util.*;
 import com.badlogic.gdx.audio.*;
 import java.awt.Image;
+import com.badlogic.gdx.Preferences;
+
 
 //FIX THESE THINGS!!!!!!
 //explosion easter egg
@@ -31,6 +33,7 @@ import java.awt.Image;
 public class Dino_Game extends ApplicationAdapter
 {
     //instance variables
+    private Preferences prefs;
     private float yVel; 
     private float timer;
     private float highScore;
@@ -101,6 +104,12 @@ public class Dino_Game extends ApplicationAdapter
     private final int DINOSPEED = 200;
     //constructor    
     public void create(){
+    
+        prefs = Gdx.app.getPreferences("Highscore");//
+        prefs.putInteger("highscore", highscore);//
+        prefs.flush();//
+        
+        
         dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
 
         dinoNorm = new Texture(Gdx.files.internal("Dino-stand.png"));
@@ -173,6 +182,10 @@ public class Dino_Game extends ApplicationAdapter
         Gdx.gl.glClearColor(0,0,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
+        
+        
+        
+        
         
         
 
