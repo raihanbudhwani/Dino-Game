@@ -41,7 +41,7 @@ public class Dino_Game extends ApplicationAdapter
     private Sound deadSound;
     private Sound hundoScore;
     private Sound explosionSound;
-    private Sound backgroundMusic;
+    private Music backgroundMusic;
 
     private Rectangle rCactus1;
     private Rectangle rCactus2;
@@ -129,7 +129,11 @@ public class Dino_Game extends ApplicationAdapter
         deadSound = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.wav"));
         hundoScore = Gdx.audio.newSound(Gdx.files.internal("hundoScore.wav"));
-        backgroundMusic = Gdx.audio.newSound(Gdx.files.internal("backgroundMusic.wav"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusic.wav"));
+        
+        backgroundMusic.setVolume(0.2f);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
 
         camera = new OrthographicCamera(); //camera for our world, it is not moving
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera); //maintains world units from screen units
@@ -169,11 +173,13 @@ public class Dino_Game extends ApplicationAdapter
         Gdx.gl.glClearColor(0,0,0.2f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
+        
+        
 
-        if((int)timer <= 0.03){
-            long id4 = backgroundMusic.play(.5f);
-            backgroundMusic.setLooping(id4, true);
-        }
+        // if((int)timer <= 0.03){
+            // long id4 = backgroundMusic.play(.5f);
+            // backgroundMusic.setLooping(id4, true);
+        // }
 
         if(gamestate == GameState.MENU){
             GlyphLayout scoreLayout = new GlyphLayout(font, "" + timer);
@@ -293,7 +299,7 @@ public class Dino_Game extends ApplicationAdapter
 
         if(gamestate == GameState.GAME)
         {     
-            timer += 0.05;
+            timer += 0.2;
             layout.setText(font, "HI " + (int)highScore + "  " + (int)timer);
 
             if(Gdx.input.isKeyJustPressed(Keys.SPACE))
