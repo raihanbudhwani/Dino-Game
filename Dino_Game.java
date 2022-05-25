@@ -61,6 +61,7 @@ public class Dino_Game extends ApplicationAdapter
     private Rectangle rCloud1;
     private Rectangle rCloud2;
     private Rectangle rCloud3;
+    private Rectangle rDinosaur2;
 
     private Texture dinoNorm;
     private Texture leftFootDino;
@@ -88,6 +89,7 @@ public class Dino_Game extends ApplicationAdapter
     private Texture tCloud3;
 
     private Texture dinosaur;
+    private Texture tDinosaur2;
 
     private GameState gamestate;
 
@@ -114,6 +116,7 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
+        tDinosaur2 = new Texture(Gdx.files.internal("Dino-stand.png"));
         dinoNorm = new Texture(Gdx.files.internal("Dino-stand.png"));
         leftFootDino = new Texture(Gdx.files.internal("Dino-left-up.png"));
         rightFootDino = new Texture(Gdx.files.internal("Dino-right-up.png"));
@@ -178,6 +181,7 @@ public class Dino_Game extends ApplicationAdapter
         rCloud1 = new Rectangle(385, 220, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
         rCloud2 = new Rectangle(250, 275, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
         rCloud3 = new Rectangle(100, 230, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
+        rDinosaur2 = new Rectangle(WORLD_WIDTH-600, WORLD_HEIGHT-210, WORLD_WIDTH/12, WORLD_HEIGHT/10);
 
     }
 
@@ -264,8 +268,8 @@ public class Dino_Game extends ApplicationAdapter
 
         if(gamestate == GameState.INSTRUCTIONS){
             font.getData().setScale(0.5f, 0.5f);
-            layout.setText(font, "Press SPACE to Jump Over the Cacti \n       and Don't Get Hit!!");
-            layout2.setText(font, "Press SPACE to go Back to Menu");
+            layout.setText(font, "Press SPACE to Jump Over the Cacti \n \n  Press the Down Arrow to Crouch \n \n        and Don't Get Hit!!");
+            layout2.setText(font, "\nPress SPACE to go Back to Menu");
             batch.begin();
             font.draw(batch, layout,50,235);
             font.draw(batch, layout2,50,135);
@@ -331,11 +335,11 @@ public class Dino_Game extends ApplicationAdapter
 
             layout.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
 
-            if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+            if(Gdx.input.isKeyPressed(Keys.SPACE))
             {
-                long id = jumpSound.play(5.0f);
-                jumpSound.setLooping(id, false);
                 if(dino.y == maxHeight){
+                    long id = jumpSound.play(5.0f);
+                    jumpSound.setLooping(id, false);
                     yVel = 10;
                 }
             }
@@ -364,27 +368,39 @@ public class Dino_Game extends ApplicationAdapter
             batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
 
             font.draw(batch, layout, WORLD_WIDTH-200 - layout.width/2, WORLD_HEIGHT-50 + layout.height/2);
+            batch.end();
 
-            batch.draw(dinosaur, dino.x, dino.y, dino.width, dino.height); //////// DINO RUNNNNNN, SWAP LEFT RIGHT FOOT
-
-            if((int)timer%2 == 0 && dino.y == maxHeight){
-                dinosaur = new Texture(Gdx.files.internal("Dino-right-up.png"));
-            }
-            else if((int)timer%2 != 0 && dino.y == maxHeight){
-                dinosaur = new Texture(Gdx.files.internal("Dino-left-up.png"));
-            }
-            if(Gdx.input.isKeyPressed(Keys.SPACE)){
-                dinosaur = new Texture(Gdx.files.internal("Dino-stand.png"));
-            }
-            if(Gdx.input.isKeyPressed(Keys.DOWN)){
+            if(dino.y == maxHeight){           
                 if((int)timer%2 == 0){
-                    dinosaur = new Texture(Gdx.files.internal("Dino-below-right-up.png"));
+                    dinosaur = new Texture(Gdx.files.internal("Dino-right-up.png"));
                 }
                 else if((int)timer%2 != 0){
-                    dinosaur = new Texture(Gdx.files.internal("Dino-below-left-up.png"));
+                    dinosaur = new Texture(Gdx.files.internal("Dino-left-up.png"));
+                }
+                if(!(Gdx.input.isKeyPressed(Keys.DOWN))){
+                    batch.begin();
+                    batch.draw(dinosaur, dino.x, dino.y, dino.width, dino.height); //////// DINO RUNNNNNN, SWAP LEFT RIGHT FOOT
+                    batch.end();
+                }
+                else if(Gdx.input.isKeyPressed(Keys.DOWN)){
+                    batch.begin();
+                    batch.draw(tDinosaur2, rDinosaur2.x, rDinosaur2.y, rDinosaur2.width, rDinosaur2.height);
+                    batch.end();
+                    if((int)timer%2 == 0){
+                        tDinosaur2 = new Texture(Gdx.files.internal("Dino-below-right-up.png"));
+                    }
+                    else if((int)timer%2 != 0){
+                        tDinosaur2 = new Texture(Gdx.files.internal("Dino-below-left-up.png"));
+                    }
                 }
             }
+            else if(dino.y != maxHeight){
+                batch.begin();
+                batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);
+                batch.end();
+            }
 
+            batch.begin();
             batch.draw(tCactus1, rCactus1.x, rCactus1.y, rCactus1.width, rCactus1.height);
             batch.draw(tCactus2, rCactus2.x, rCactus2.y, rCactus2.width, rCactus2.height);
             batch.draw(tCactus3, rCactus3.x, rCactus3.y, rCactus3.width, rCactus3.height);
@@ -408,11 +424,11 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
@@ -427,11 +443,11 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
@@ -446,11 +462,11 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
@@ -465,11 +481,11 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
@@ -484,11 +500,11 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
@@ -503,11 +519,11 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
@@ -522,61 +538,59 @@ public class Dino_Game extends ApplicationAdapter
                 ground.x -= cactusSpeed;
                 ground2.x -= cactusSpeed;
                 ground3.x -= cactusSpeed;
-                if(ground.x+(WORLD_WIDTH-10) <= 0)
+                if(ground.x + (WORLD_WIDTH-10) <= 0)
                     ground.x = WORLD_WIDTH*2;
-                if(ground2.x+(WORLD_WIDTH-10) < 0)
+                if(ground2.x + (WORLD_WIDTH-10) < 0)
                     ground2.x = WORLD_WIDTH*2;
-                if(ground3.x+(WORLD_WIDTH-10) < 0)
+                if(ground3.x + (WORLD_WIDTH-10) < 0)
                     ground3.x = WORLD_WIDTH*2;
             }
 
-            if(rCloud1.x < 0){
-                int rand = (int)(Math.random()*1000+100);
+            if(rCloud1.x + WORLD_WIDTH/5 < 0){
+                int rand = (int)(Math.random()*500+100);
                 rCloud1.x = WORLD_WIDTH+rand;
             }
 
-            if(rCloud2.x < 0){
-                int rand = (int)(Math.random()*1000+100);
+            if(rCloud2.x + WORLD_WIDTH/5 < 0){
+                int rand = (int)(Math.random()*500+100);
                 rCloud2.x = WORLD_WIDTH+rand;
             }
 
-            if(rCloud3.x < 0){
-                int rand = (int)(Math.random()*1000+100);
+            if(rCloud3.x + WORLD_WIDTH/5 < 0){
+                int rand = (int)(Math.random()*500+100);
                 rCloud3.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus1.x < 0){
+            if(rCactus1.x + WORLD_WIDTH/12-10 < 0){
                 int rand = (int)(Math.random()*4000+200);
                 rCactus1.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus2.x < 0){
+            if(rCactus2.x + WORLD_WIDTH/12-10 < 0){
                 int rand = (int)(Math.random()*4000+200);
                 rCactus2.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus3.x < 0){
+            if(rCactus3.x + WORLD_WIDTH/12-10 < 0){
                 int rand = (int)(Math.random()*4000+200);              
                 rCactus3.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus4.x < 0){
+            if(rCactus4.x + WORLD_WIDTH/12-10 < 0){
                 int rand = (int)(Math.random()*4000+200);
                 rCactus4.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus5.x < 0){
+            if(rCactus5.x + WORLD_WIDTH/12-10 < 0){
                 int rand = (int)(Math.random()*4000+200);
                 rCactus5.x = WORLD_WIDTH+rand;
             }
 
-            if(rBird.x < 0){
+            if(rBird.x + WORLD_WIDTH/10 < 0){
                 int rand = (int)(Math.random()*4000+200);              
                 rBird.x = WORLD_WIDTH+rand;
-                int rand2 = (int)(Math.random()*215+135); //THIS MIGHT NEED FIXING!!!!!!!
-                if(rand2 > dino.y || rand2 < dino.y){ //THIS MIGHT NEED FIXING!!!!!!!
-                    rBird.y = rand2; //THIS MIGHT NEED FIXING!!!!!!!
-                }
+                int rand2 = (int)(Math.random()*150+135); 
+                rBird.y = rand2; 
             }
 
             if(rCactus1.x + 50 >= rCactus2.x || rCactus1.x + 50 >= rCactus3.x || rCactus1.x + 50 >= rCactus4.x || rCactus1.x + 50 >= rCactus5.x || rCactus1.x + 50 >= rBird.x)
@@ -631,6 +645,9 @@ public class Dino_Game extends ApplicationAdapter
         }
         reset();
     }
+
+    // || rDinosaur2.overlaps(rBird) || rDinosaur2.overlaps(rCactus1) || rDinosaur2.overlaps(rCactus2) || rDinosaur2.overlaps(rCactus3)
+    // || rDinosaur2.overlaps(rCactus4) || rDinosaur2.overlaps(rCactus5)
 
     //Change the y and x of the rectangles to the top right instead of top left
     public boolean hasCollided(){
