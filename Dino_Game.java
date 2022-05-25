@@ -572,6 +572,10 @@ public class Dino_Game extends ApplicationAdapter
             if(rBird.x < 0){
                 int rand = (int)(Math.random()*4000+200);              
                 rBird.x = WORLD_WIDTH+rand;
+                int rand2 = (int)(Math.random()*215+135); //THIS MIGHT NEED FIXING!!!!!!!
+                if(rand2 > dino.y || rand2 < dino.y){ //THIS MIGHT NEED FIXING!!!!!!!
+                    rBird.y = rand2; //THIS MIGHT NEED FIXING!!!!!!!
+                }
             }
 
             if(rCactus1.x + 50 >= rCactus2.x || rCactus1.x + 50 >= rCactus3.x || rCactus1.x + 50 >= rCactus4.x || rCactus1.x + 50 >= rCactus5.x || rCactus1.x + 50 >= rBird.x)
