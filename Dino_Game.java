@@ -28,6 +28,7 @@ import com.badlogic.gdx.Preferences;
 //FIX THESE THINGS!!!!!!
 //fix sound and meteor
 //duck
+//I think i fixed the bird generation but double check to see if i actually did or not, might need to fix the math.random line i made
 
 public class Dino_Game extends ApplicationAdapter
 {
