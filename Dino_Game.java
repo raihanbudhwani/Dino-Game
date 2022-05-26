@@ -26,9 +26,7 @@ import java.awt.Image;
 import com.badlogic.gdx.Preferences;
 
 //FIX THESE THINGS!!!!!!
-//fix sound and meteor
-//duck
-//I think i fixed the bird generation but double check to see if i actually did or not, might need to fix the math.random line i made
+
 
 public class Dino_Game extends ApplicationAdapter
 {
@@ -147,7 +145,7 @@ public class Dino_Game extends ApplicationAdapter
         hundoScore = Gdx.audio.newSound(Gdx.files.internal("hundoScore.wav"));
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusic.wav"));
 
-        backgroundMusic.setVolume(0.2f);
+        backgroundMusic.setVolume(0.08f);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
@@ -176,8 +174,8 @@ public class Dino_Game extends ApplicationAdapter
         rBird = new Rectangle(WORLD_WIDTH+3000, WORLD_HEIGHT-150, WORLD_WIDTH/10, WORLD_HEIGHT/7);
         dino = new Rectangle(WORLD_WIDTH-600, WORLD_HEIGHT-210, WORLD_WIDTH/12-10, WORLD_HEIGHT/7);
         ground = new Rectangle(0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
-        ground2 = new Rectangle(WORLD_WIDTH, 135, WORLD_WIDTH+30, WORLD_HEIGHT/9);
-        ground3 = new Rectangle(WORLD_WIDTH*2, 135, WORLD_WIDTH+30, WORLD_HEIGHT/9);
+        ground2 = new Rectangle(WORLD_WIDTH-10, 135, WORLD_WIDTH+30, WORLD_HEIGHT/9);
+        ground3 = new Rectangle(WORLD_WIDTH*2-10, 135, WORLD_WIDTH+30, WORLD_HEIGHT/9);
         rCloud1 = new Rectangle(385, 220, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
         rCloud2 = new Rectangle(250, 275, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
         rCloud3 = new Rectangle(100, 230, WORLD_WIDTH/5, WORLD_HEIGHT/5); //cloud
@@ -227,9 +225,9 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.GAMEOVER){
-            if(timer >= 1000){
-                gamestate = GameState.EASTEREGG;
-            }
+            // if(timer >= 1000){
+                // gamestate = GameState.EASTEREGG;
+            // }
             font.getData().setScale(0.5f, 0.5f);
 
             if(timer > prefs.getInteger("HI")){
@@ -279,55 +277,55 @@ public class Dino_Game extends ApplicationAdapter
             }    
         }
 
-        if(gamestate == GameState.EASTEREGG){
-            if(timer > prefs.getInteger("HI")){
-                prefs.putInteger("HI", (int)timer);
-                prefs.flush();
-            }
+        // if(gamestate == GameState.EASTEREGG){
+            // if(timer > prefs.getInteger("HI")){
+                // prefs.putInteger("HI", (int)timer);
+                // prefs.flush();
+            // }
 
-            layout.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
+            // layout.setText(font, "HI" +  "   " + prefs.getInteger("HI") + "   " + (int)timer);
 
-            layout2.setText(font, "Press ENTER to Play Again or\n \n ESCAPE to go to the Menu");
-            if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
-                gamestate = GameState.GAME;
-            }
-            if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
-                gamestate = GameState.MENU;
-            }
+            // layout2.setText(font, "Press ENTER to Play Again or\n \n ESCAPE to go to the Menu");
+            // if(Gdx.input.isKeyJustPressed(Keys.ENTER)){
+                // gamestate = GameState.GAME;
+            // }
+            // if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
+                // gamestate = GameState.MENU;
+            // }
 
-            batch.begin();
-            batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
-            batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
-            batch.draw(tGround2, WORLD_WIDTH, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
-            batch.draw(tGround3, WORLD_WIDTH*2, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
-            batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
-            batch.draw(deadDino, dino.x, dino.y, dino.width, dino.height);
-            batch.draw(tMeteor, rMeteor.x, rMeteor.y, rMeteor.width, rMeteor.height);
-            batch.end();
-            rMeteor.x -= 10;
-            rMeteor.y -= 10;
+            // batch.begin();
+            // batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);//background
+            // batch.draw(tGround, 0, 135, WORLD_WIDTH, WORLD_HEIGHT/9);//ground
+            // batch.draw(tGround2, WORLD_WIDTH, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
+            // batch.draw(tGround3, WORLD_WIDTH*2, 135, WORLD_WIDTH, WORLD_HEIGHT/9);
+            // batch.draw(sun, 570, 270, WORLD_WIDTH/5, WORLD_HEIGHT/3); //sun
+            // batch.draw(deadDino, dino.x, dino.y, dino.width, dino.height);
+            // batch.draw(tMeteor, rMeteor.x, rMeteor.y, rMeteor.width, rMeteor.height);
+            // batch.end();
+            // rMeteor.x -= 10;
+            // rMeteor.y -= 10;
 
-            if(rMeteor.overlaps(dino)){
-                long id = explosionSound.play(1.0f);
-                explosionSound.setLooping(id, false);
-                rMeteor.x = WORLD_WIDTH-600;
-                rMeteor.y = WORLD_HEIGHT-210;
+            // if(rMeteor.overlaps(dino)){
+                // long id = explosionSound.play(1.0f);
+                // explosionSound.setLooping(id, false);
+                // rMeteor.x = WORLD_WIDTH-600;
+                // rMeteor.y = WORLD_HEIGHT-210;
 
-                batch.begin();
-                batch.draw(tMeteor,rMeteor.x, rMeteor.y,rMeteor.width, rMeteor.height );
-                batch.draw(explosion, 230, 135, 200, 200);
-                batch.end();
+                // batch.begin();
+                // batch.draw(tMeteor,rMeteor.x, rMeteor.y,rMeteor.width, rMeteor.height );
+                // batch.draw(explosion, 230, 135, 200, 200);
+                // batch.end();
 
-            }
-            batch.begin();
-            font.draw(batch, layout, 365, 306);
-            font.draw(batch, layout2,100,185);
-            batch.end();
-        }
+            // }
+            // batch.begin();
+            // font.draw(batch, layout, 365, 306);
+            // font.draw(batch, layout2,100,185);
+            // batch.end();
+        // }
 
         if(gamestate == GameState.GAME)
         {   
-            timer += 0.05;
+            timer += 0.08;
             if(timer > prefs.getInteger("HI")){
                 prefs.putInteger("HI", (int)timer);
                 prefs.flush();
@@ -338,7 +336,7 @@ public class Dino_Game extends ApplicationAdapter
             if(Gdx.input.isKeyPressed(Keys.SPACE))
             {
                 if(dino.y == maxHeight){
-                    long id = jumpSound.play(5.0f);
+                    long id = jumpSound.play(10.0f);
                     jumpSound.setLooping(id, false);
                     yVel = 10;
                 }
@@ -589,8 +587,10 @@ public class Dino_Game extends ApplicationAdapter
             if(rBird.x + WORLD_WIDTH/10 < 0){
                 int rand = (int)(Math.random()*4000+200);              
                 rBird.x = WORLD_WIDTH+rand;
-                int rand2 = (int)(Math.random()*150+135); 
-                rBird.y = rand2; 
+                int rand2 = (int)(Math.random()*150+135);
+                if(rand2 != dino.y){
+                    rBird.y = rand2;
+                }
             }
 
             if(rCactus1.x + 50 >= rCactus2.x || rCactus1.x + 50 >= rCactus3.x || rCactus1.x + 50 >= rCactus4.x || rCactus1.x + 50 >= rCactus5.x || rCactus1.x + 50 >= rBird.x)
