@@ -26,6 +26,7 @@ import java.awt.Image;
 import com.badlogic.gdx.Preferences;
 
 //FIX THESE THINGS!!!!!!
+//bent down dino running through cactus
 
 public class Dino_Game extends ApplicationAdapter
 {
