@@ -26,7 +26,6 @@ import java.awt.Image;
 import com.badlogic.gdx.Preferences;
 
 //FIX THESE THINGS!!!!!!
-//bent down dino running through cactus
 
 public class Dino_Game extends ApplicationAdapter
 {
@@ -38,6 +37,8 @@ public class Dino_Game extends ApplicationAdapter
     private int maxHeight;
     private double cactusSpeed;
     private float score;
+    private int runSpeed;
+    private int runSpeedTotal;
 
     private Sound jumpSound;
     private Sound deadSound;
@@ -171,6 +172,7 @@ public class Dino_Game extends ApplicationAdapter
         cactusSpeed = 0;
         yVel = 0; 
         score = 0;
+        runSpeed = 0;
 
         rMeteor = new Rectangle(WORLD_WIDTH/2+100, WORLD_HEIGHT/2+300, WORLD_WIDTH/5, WORLD_HEIGHT/3);
         rCactus1 = new Rectangle(WORLD_WIDTH+500, WORLD_HEIGHT-210, WORLD_WIDTH/12-10, WORLD_HEIGHT/7);
@@ -199,7 +201,7 @@ public class Dino_Game extends ApplicationAdapter
         viewport.apply();
 
         if(gamestate == GameState.MENU){
-            score = (int)timer/75;
+            score = (int)timer/150;
             GlyphLayout scoreLayout = new GlyphLayout(font, "" + score);
 
             font.getData().setScale(0.5f, 0.5f); //size of font
@@ -235,7 +237,7 @@ public class Dino_Game extends ApplicationAdapter
         }
 
         if(gamestate == GameState.GAMEOVER){
-            score = (int)timer/75;
+            score = (int)timer/150;
             font.getData().setScale(0.5f, 0.5f);
 
             if(score > prefs.getInteger("HI")){
@@ -275,10 +277,10 @@ public class Dino_Game extends ApplicationAdapter
         if(gamestate == GameState.INSTRUCTIONS){
             font.getData().setScale(0.5f, 0.5f);
             layout.setText(font, "      INSTRUCTIONS");
-            layout2.setText(font, "\n Press SPACE/UP ARROW to Jump \n   Over the Cacti \n \n  Press the Down Arrow to Crouch \n \n        and Don't Get Hit!!\n Press SPACE to go Back to Menu");
+            layout2.setText(font, "Press SPACE/UP ARROW to Jump \n \n        Over the Cacti \n \nPress the Down Arrow to Crouch \n \n      and Don't Get Hit!!\n \nPress SPACE to go Back to Menu");
             batch.begin();
             font.draw(batch, layout,115,275);
-            font.draw(batch, layout2,50,135);
+            font.draw(batch, layout2,90,220);
             batch.end();
             if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
                 gamestate = GameState.MENU;
@@ -288,7 +290,14 @@ public class Dino_Game extends ApplicationAdapter
         if(gamestate == GameState.GAME)
         {   
             timer += 30;
-            score = (int)timer/75;
+            runSpeed += 10;
+            runSpeedTotal = runSpeed/80;
+            
+            // if(runSpeed < 50){
+                // runSpeed += 2;
+            // }
+            
+            score = (int)timer/150;
             if(score > prefs.getInteger("HI")){
                 prefs.putInteger("HI", (int)score);
                 prefs.flush();
@@ -332,10 +341,10 @@ public class Dino_Game extends ApplicationAdapter
             batch.end();
 
             if(dino.y == maxHeight){           
-                if((int)score%2 == 0){
+                if((int)runSpeedTotal%2 == 0){
                     dinosaur = new Texture(Gdx.files.internal("Dino-right-up.png"));
                 }
-                else if((int)score%2 != 0){
+                else if((int)runSpeedTotal%2 != 0){
                     dinosaur = new Texture(Gdx.files.internal("Dino-left-up.png"));
                 }
                 if(!(Gdx.input.isKeyPressed(Keys.DOWN))){
@@ -346,16 +355,17 @@ public class Dino_Game extends ApplicationAdapter
                     batch.end();
                 }
                 else if(Gdx.input.isKeyPressed(Keys.DOWN)){
-                    dino.x = WORLD_WIDTH-100000;
-                    dino.y = WORLD_HEIGHT-100000;
+                    //dino.x = WORLD_WIDTH-100000;
+                    //dino.y = WORLD_HEIGHT-100000;
                     batch.begin();
+                
                     batch.draw(tDinosaur2, rDinosaur2.x, rDinosaur2.y, rDinosaur2.width, rDinosaur2.height);
-                    batch.draw(dinosaur, dino.x, dino.y, dino.width, dino.height);
+                    //batch.draw(dinosaur, dino.x, dino.y, dino.width, dino.height);
                     batch.end();
-                    if((int)score%2 == 0){
+                    if((int)runSpeedTotal%2 == 0){
                         tDinosaur2 = new Texture(Gdx.files.internal("Dino-below-right-up.png"));
                     }
-                    else if((int)score%2 != 0){
+                    else if((int)runSpeedTotal%2 != 0){
                         tDinosaur2 = new Texture(Gdx.files.internal("Dino-below-left-up.png"));
                     }
                 }
@@ -366,10 +376,10 @@ public class Dino_Game extends ApplicationAdapter
                 batch.end();
             }
 
-            if((int)score%6 == 0){
+            if((int)runSpeedTotal%4 == 0){
                 tBird = new Texture(Gdx.files.internal("bird.png"));
             }
-            else if((int)score%6 != 0){
+            else if((int)runSpeedTotal%6 != 0){
                 tBird = new Texture(Gdx.files.internal("flipflap.png"));
             }
 
@@ -392,7 +402,7 @@ public class Dino_Game extends ApplicationAdapter
 
             //logrithmic speed
             cactusSpeed = Math.log(timer);
-            System.out.println(cactusSpeed);
+
 
             rCactus1.x -= cactusSpeed;
             rCactus2.x -= cactusSpeed;
