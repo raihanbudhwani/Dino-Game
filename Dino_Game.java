@@ -542,7 +542,7 @@ public class Dino_Game extends ApplicationAdapter
 
     @Override
     public void resize(int width, int height){
-        viewport.update(width, height, true); 
+        viewport.update(width, height, true);
     }
 
     @Override
