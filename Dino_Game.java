@@ -303,7 +303,7 @@ public class Dino_Game extends ApplicationAdapter
                 if(dino.y == maxHeight){
                     long id = jumpSound.play(10.0f);
                     jumpSound.setLooping(id, false);
-                    yVel = 10;
+                    yVel = 11;
                 }
             }
 
@@ -358,6 +358,9 @@ public class Dino_Game extends ApplicationAdapter
                 }
             }
             else if(dino.y != maxHeight){
+                if(Gdx.input.isKeyPressed(Keys.DOWN)){
+                    yVel -= GRAVITY+2;
+                }
                 batch.begin();
                 batch.draw(dinoNorm, dino.x, dino.y, dino.width, dino.height);
                 batch.end();
@@ -458,38 +461,40 @@ public class Dino_Game extends ApplicationAdapter
                 int rand2 = (int)(Math.random()*150+135);
                 rBird.y = rand2;
             }
+            
+            int randDist = (int)(Math.random()*41+30);
 
-            if(rCactus1.x + 50 >= rCactus2.x || rCactus1.x + 50 >= rCactus3.x || rCactus1.x + 50 >= rCactus4.x || rCactus1.x + 50 >= rCactus5.x || rCactus1.x + 50 >= rBird.x)
+            if(rCactus1.x + randDist >= rCactus2.x || rCactus1.x + randDist >= rCactus3.x || rCactus1.x + randDist >= rCactus4.x || rCactus1.x + randDist >= rCactus5.x || rCactus1.x + randDist >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus1.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus2.x + 50 >= rCactus1.x || rCactus2.x + 50 >= rCactus3.x || rCactus2.x + 50 >= rCactus4.x || rCactus2.x + 50 >= rCactus5.x || rCactus2.x + 50 >= rBird.x)
+            if(rCactus2.x + randDist >= rCactus1.x || rCactus2.x + randDist >= rCactus3.x || rCactus2.x + randDist >= rCactus4.x || rCactus2.x + randDist >= rCactus5.x || rCactus2.x + randDist >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus2.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus3.x + 50 >= rCactus2.x || rCactus3.x + 50 >= rCactus1.x || rCactus3.x + 50 >= rCactus4.x || rCactus3.x + 50 >= rCactus5.x || rCactus3.x + 50 >= rBird.x)
+            if(rCactus3.x + randDist >= rCactus2.x || rCactus3.x + randDist >= rCactus1.x || rCactus3.x + randDist >= rCactus4.x || rCactus3.x + randDist >= rCactus5.x || rCactus3.x + randDist >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus3.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus4.x + 50 >= rCactus2.x || rCactus4.x + 50 >= rCactus3.x || rCactus4.x + 50 >= rCactus1.x || rCactus4.x + 50 >= rCactus5.x || rCactus4.x + 50 >= rBird.x)
+            if(rCactus4.x + randDist >= rCactus2.x || rCactus4.x + randDist >= rCactus3.x || rCactus4.x + randDist >= rCactus1.x || rCactus4.x + randDist >= rCactus5.x || rCactus4.x + randDist >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus4.x = WORLD_WIDTH+rand;
             }
 
-            if(rCactus5.x + 50 >= rCactus2.x || rCactus5.x + 50 >= rCactus3.x || rCactus5.x + 50 >= rCactus4.x || rCactus5.x + 50 >= rCactus1.x || rCactus5.x + 50 >= rBird.x)
+            if(rCactus5.x + randDist >= rCactus2.x || rCactus5.x + randDist >= rCactus3.x || rCactus5.x + randDist >= rCactus4.x || rCactus5.x + randDist >= rCactus1.x || rCactus5.x + randDist >= rBird.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rCactus5.x = WORLD_WIDTH+rand;
             }
 
-            if(rBird.x + 50 >= rCactus2.x || rBird.x + 50 >= rCactus3.x || rBird.x + 50 >= rCactus4.x || rBird.x + 50 >= rCactus5.x || rBird.x + 50 >= rCactus1.x)
+            if(rBird.x + randDist >= rCactus2.x || rBird.x + randDist >= rCactus3.x || rBird.x + randDist >= rCactus4.x || rBird.x + randDist >= rCactus5.x || rBird.x + randDist >= rCactus1.x)
             {
                 int rand = (int)(Math.random()*4000+200);
                 rBird.x = WORLD_WIDTH+rand;
